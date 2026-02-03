@@ -1,0 +1,12 @@
+[project]
+name = "easyhid"
+version = "1.0.0"
+description = "Bluetooth HID keyboard and mouse sharing for Linux"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "evdev>=1.6.0",
+]
+
+[project.optional-dependencies]
+dev = []

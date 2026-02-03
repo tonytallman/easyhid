@@ -1,0 +1,4 @@
+# Install system D-Bus and GObject bindings first (they don't build from pip on Debian/Ubuntu):
+#   sudo apt install python3-dbus python3-gi python3-evdev
+# Then create venv with: python3 -m venv .venv --system-site-packages
+evdev>=1.6.0
