@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=EasyHID
+Comment=Share keyboard and mouse over Bluetooth
+Exec=easyhid
+Icon=input-keyboard
+Terminal=false
+Type=Application
+Categories=Utility;System;
+Keywords=bluetooth;keyboard;mouse;HID;sharing;input;

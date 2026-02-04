@@ -1,0 +1,6 @@
+easyhid (1.0.0) unstable; urgency=medium
+
+  * Initial release
+  * Bluetooth HID keyboard and mouse sharing for Linux
+
+ -- EasyHID Maintainer <maintainer@example.com>  Tue, 03 Feb 2026 12:00:00 +0000

@@ -1,0 +1,26 @@
+Source: easyhid
+Section: utils
+Priority: optional
+Maintainer: EasyHID Maintainer <tony.tallman@live.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.0
+
+Package: easyhid
+Architecture: all
+Depends: python3 (>= 3.10),
+         python3-tk,
+         python3-dbus,
+         python3-gi,
+         python3-evdev,
+         bluetooth,
+         bluez,
+         dbus
+Description: Bluetooth HID keyboard and mouse sharing
+ Share your keyboard and mouse with other devices over Bluetooth.
+ Works with Mac, Windows, Android, and other Bluetooth HID hosts.
+ .
+ Features:
+  - Share keyboard and mouse input over Bluetooth
+  - Exclusive input capture (input doesn't affect host system while sharing)
+  - Simple GUI with one-click sharing
+  - Emergency stop: Press Left Shift + Space + Right Shift simultaneously

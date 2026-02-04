@@ -1,0 +1,58 @@
+# Installation Requirements
+
+## Single-Command Installation Rule
+
+**CRITICAL REQUIREMENT:** Installation must be a single click or a single command. The app must work for any Debian-based distribution after installation.
+
+### Requirements
+
+1. **Single Command Installation**
+   - Users must be able to install with: `sudo apt install ./easyhid_*.deb`
+   - All dependencies must be automatically resolved and installed
+   - No manual dependency installation steps required
+
+2. **Zero User Effort**
+   - No manual `apt install` commands for dependencies
+   - No manual group membership changes (handled by postinst)
+   - No manual configuration files to edit
+   - The only user action should be: install the .deb file
+
+3. **Debian Compatibility**
+   - Must work on all Debian-based distributions:
+     - Debian 11+
+     - Ubuntu 20.04+
+     - Linux Mint 20+
+     - Pop!_OS 20.04+
+     - Elementary OS 6+
+     - Any other Debian derivative
+
+4. **Desktop Integration**
+   - Application must appear in application menu
+   - Users can launch by clicking the icon
+   - No terminal required for normal usage
+
+### Implementation Guidelines
+
+- All system dependencies MUST be declared in `debian/control` under `Depends:`
+- Post-installation scripts (`debian/postinst`) handle any setup that requires user context
+- Desktop entry (`debian/easyhid.desktop`) provides GUI launcher
+- Build process (`build-deb.sh`) creates a single distributable .deb file
+
+### What NOT to Do
+
+- ❌ Require users to run separate `apt install` commands
+- ❌ Require users to manually add themselves to groups
+- ❌ Require users to edit configuration files
+- ❌ Require users to run setup scripts manually
+- ❌ Create installation instructions with multiple steps
+
+### What TO Do
+
+- ✅ Create a .deb package with all dependencies declared
+- ✅ Use postinst script for any post-install setup
+- ✅ Provide desktop entry for easy launching
+- ✅ Test that `sudo apt install ./easyhid_*.deb` installs everything needed
+
+### Priority
+
+This is a fundamental requirement. If installation cannot be made this simple, the project should be abandoned rather than requiring manual steps.

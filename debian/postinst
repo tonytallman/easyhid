@@ -1,0 +1,56 @@
+#!/bin/bash
+# Post-installation script for EasyHID
+
+set -e
+
+# Add the user who ran the install command to the input group
+# This allows access to /dev/input/event* devices without root
+
+# Get the user who ran sudo (if available) or the current user
+INSTALL_USER=${SUDO_USER:-$USER}
+
+# If SUDO_USER is not set and we're root, try to get the actual user
+if [ -z "$INSTALL_USER" ] || [ "$INSTALL_USER" = "root" ]; then
+    # Try to get the user from the parent process
+    INSTALL_USER=$(ps -o user= -p $PPID | tr -d ' ')
+fi
+
+# Fallback to whoami if still empty
+if [ -z "$INSTALL_USER" ] || [ "$INSTALL_USER" = "root" ]; then
+    INSTALL_USER=$(whoami)
+fi
+
+# Only proceed if we have a valid non-root user
+if [ -n "$INSTALL_USER" ] && [ "$INSTALL_USER" != "root" ]; then
+    # Check if user is already in the input group
+    if groups "$INSTALL_USER" | grep -q "\binput\b"; then
+        echo "User $INSTALL_USER is already in the 'input' group."
+    else
+        echo "Adding user $INSTALL_USER to 'input' group..."
+        usermod -aG input "$INSTALL_USER"
+        echo ""
+        echo "=========================================="
+        echo "IMPORTANT: Log out and log back in"
+        echo "=========================================="
+        echo ""
+        echo "User $INSTALL_USER has been added to the 'input' group."
+        echo "You must log out and log back in for this to take effect."
+        echo "After logging back in, you can run EasyHID without root privileges."
+        echo ""
+    fi
+else
+    echo "Warning: Could not determine the installing user."
+    echo "You may need to manually add yourself to the 'input' group:"
+    echo "  sudo usermod -aG input \$USER"
+    echo "  (then log out and log back in)"
+fi
+
+# Make main.py executable
+chmod +x /usr/share/easyhid/main.py
+
+# Update desktop database
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database -q || true
+fi
+
+exit 0

@@ -1,0 +1,8 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	# No compilation needed for pure Python package
+	# Files are installed via debian/install

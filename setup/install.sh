@@ -1,10 +1,14 @@
 #!/bin/bash
-# Installation script for EasyHID
+# Installation script for EasyHID (source / non-Debian installs)
+#
+# On Debian, Ubuntu, or derivatives, prefer the .deb package for one-command install:
+#   sudo apt install ./easyhid_*.deb
+# This script is for Fedora/Arch or when developing from source.
 
 set -e
 
-echo "EasyHID - Installation Script"
-echo "=============================="
+echo "EasyHID - Installation Script (source install)"
+echo "==============================================="
 echo ""
 
 # Detect Linux distribution

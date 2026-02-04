@@ -14,13 +14,46 @@ A Linux application that exposes your keyboard and mouse (trackpad) as a Bluetoo
 ## Requirements
 
 - Linux system with Bluetooth support
-- Python 3.10 or higher
+- Python 3.10 or higher (for source install)
 - BlueZ 5.50+ (usually pre-installed)
-- Root access or membership in the `input` group
+- Membership in the `input` group (added automatically when installing the .deb)
 
 ## Installation
 
-### 1. Install System Dependencies
+### Recommended: Install from .deb (Debian, Ubuntu, and derivatives)
+
+One command installs the app and all dependencies:
+
+```bash
+sudo apt install ./easyhid_1.0.0_all.deb
+```
+
+If you have the `.deb` file in the current directory, that’s all you need. Apt will install EasyHID and any required system packages (python3-tk, python3-dbus, python3-gi, python3-evdev, bluetooth, bluez). You will be added to the `input` group automatically.
+
+**After installing:** Log out and log back in once so the `input` group membership takes effect. Then you can run EasyHID from the application menu or with:
+
+```bash
+easyhid
+```
+
+**Building the .deb** (for packagers or from source):
+
+```bash
+chmod +x build-deb.sh
+./build-deb.sh
+```
+
+The package is created in `dist/easyhid_1.0.0_all.deb`.
+
+**Supported:** Debian 11+, Ubuntu 20.04+, Linux Mint 20+, Pop!_OS 20.04+, and other Debian-based distributions.
+
+---
+
+### Install from source (developers or non-Debian)
+
+Use this if you’re on Fedora/Arch, developing, or prefer running from source.
+
+#### 1. Install system dependencies
 
 Run the setup script:
 
@@ -29,7 +62,7 @@ chmod +x setup/install.sh
 sudo ./setup/install.sh
 ```
 
-Or manually:
+Or install manually:
 
 ```bash
 # Ubuntu/Debian
@@ -42,23 +75,19 @@ sudo dnf install python3-tkinter python3-dbus python3-gobject bluetooth bluez py
 sudo pacman -S python-tkinter python-dbus python-gobject bluez python-evdev
 ```
 
-### 2. Add User to Input Group
+#### 2. Add user to input group
 
 ```bash
 sudo usermod -aG input $USER
 ```
 
-**Important:** You must log out and log back in for the group membership to take effect.
+**Important:** Log out and log back in for the group membership to take effect.
 
-### 3. Install Python Dependencies (use a virtual environment)
+#### 3. Install Python dependencies (virtual environment)
 
-On Debian/Ubuntu, the system Python is externally managed and `dbus-python` often fails to build from pip. Use system packages for D-Bus/GObject and a venv with `--system-site-packages`:
+On Debian/Ubuntu, system Python is externally managed; use system packages for D-Bus/GObject and a venv with `--system-site-packages`:
 
 ```bash
-# One-time: venv support + Python libs (D-Bus, GObject, evdev)
-sudo apt install -y python3.12-venv python3-dbus python3-gi python3-evdev
-
-# Create venv and install remaining deps (evdev from pip)
 chmod +x setup/create_venv.sh
 ./setup/create_venv.sh
 
@@ -69,13 +98,12 @@ chmod +x setup/create_venv.sh
 
 ## Usage
 
-### Starting the Application
+### Starting the application
 
-```bash
-python3 main.py
-```
+- **If you installed the .deb:** Run `easyhid` or start **EasyHID** from the application menu.
+- **If you installed from source:** Run `python3 main.py` or `.venv/bin/python main.py`.
 
-### Using the Application
+### Using the application
 
 1. Click the **"Share"** button to start sharing
 2. The application will:
@@ -87,7 +115,7 @@ python3 main.py
    - Click the **"Stop"** button in the GUI, OR
    - Simultaneously press and hold **Left Shift + Space + Right Shift**
 
-### Pairing with Another Device
+### Pairing with another device
 
 1. Start sharing from the application
 2. On your target device (Mac, Windows, Android, etc.), go to Bluetooth settings
@@ -97,7 +125,7 @@ python3 main.py
 
 ## Troubleshooting
 
-### Permission Denied Errors
+### Permission denied errors
 
 If you see permission errors accessing `/dev/input/event*`:
 
@@ -108,6 +136,8 @@ groups | grep input
 # If not, add yourself and log out/in
 sudo usermod -aG input $USER
 ```
+
+If you installed the .deb, log out and log back in once after installation.
 
 ### Bluetooth HID already registered (UUID already registered)
 
@@ -146,12 +176,12 @@ sudo /usr/libexec/bluetooth/bluetoothd --noplugin=input &
 
 Bluetooth will stop when you kill that process or reboot. Use Option A for a permanent fix.
 
-### Bluetooth Not Working
+### Bluetooth not working
 
 - Ensure Bluetooth is enabled: `bluetoothctl show`
 - Check BlueZ is running: `systemctl status bluetooth`
 
-### Device Not Discoverable
+### Device not discoverable
 
 - Ensure the application is running and "Share" is active
 - Check Bluetooth is enabled on both devices

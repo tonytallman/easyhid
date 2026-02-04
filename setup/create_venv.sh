@@ -1,5 +1,7 @@
 #!/bin/bash
 # Create EasyHID venv and install Python dependencies (avoids externally-managed-environment).
+# Only needed when running from source. If you installed the .deb package, use: easyhid
+#
 # Requires system D-Bus/GObject packages (run setup/install.sh first, or):
 #   sudo apt install -y python3-dbus python3-gi python3-evdev python3.12-venv
 

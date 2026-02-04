@@ -1,0 +1,4 @@
+main.py usr/share/easyhid
+src usr/share/easyhid
+debian/easyhid.desktop usr/share/applications
+bin/easyhid usr/bin
